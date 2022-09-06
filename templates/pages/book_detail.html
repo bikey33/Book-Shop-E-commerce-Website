@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} {{ book.book_name}}--{{book.author_name}}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-5">
+      <img src="{{ book.cover_image.url }}" class="img-fluid" alt="Card image cap">
+      <br/>
+      <br/>
+      <h4 style = "color:red"> Rs. {{book.price}}</h4>
+        <h5> <del>Rs. {{book.marked_price}} </del> - {{book.discount_pct}} %</h5>
+        <br/>
+    </div>
+    <div class="col-sm-7">
+        <br/>
+
+        <h4> {{book.book_name}} - {{book.author_name}}- {{book.published_year}}</h4>
+        <fieldset class="starability-result mx-auto" data-rating="{{ book.rating }}">
+          Rated: {{ book.rating }} stars
+      </fieldset>
+        <br/>
+        <h6> {{book.category}}</h6>
+
+        <br/>
+        <p>
+          {{book.description}}
+        </p>
+        <h6> Available Quantity: {{book.available_qty}}</h6>
+        <a href = "{% url 'cart' book.id %}" > <button type="button" class="btn btn-primary btn-lg">Add to Cart</button>
+      <button type="button" class="btn btn-danger btn-lg">Buy Now</button> </a>
+    </div>
+
+  </div>
+</div>
+<br/>
+{% comment %} {% if is_paginated %} {% endcomment %}
+<p>{% if exception %}{{ exception }}{% else %}You're not authorized to enter into this page.{% endif %}</p>
+{% endblock content %}

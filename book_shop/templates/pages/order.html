@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %} Buy your favorite books(403){% endblock %}
+
+{% block content %}
+</br>   <h1> It's a Order page.</h1>
+
+{% comment %} {% endif %}  {% endcomment %}
+
+<p>{% if exception %}{{ exception }}{% else %}You're not allowed to access this page.{% endif %}</p>
+{% endblock content %}

@@ -1,0 +1,8 @@
+[33m7a77744[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Merge branch 'new_feature' into 'master'
+[33m01e47d4[m[33m ([m[1;31morigin/new_feature[m[33m, [m[1;32mnew_feature[m[33m)[m Simple UI changes
+[33m987c964[m Merge branch 'master' of https://gitlab.com/thapakbb1289/book-shop-website
+[33m30b58c1[m Commit before droping migrations
+[33m589bbe5[m Merge branch 'main' into 'master'
+[33m808b1c1[m Initial commit before implementing custom user authenticatio
+[33mdcdcdd2[m[33m ([m[1;32mcustom_user[m[33m, [m[1;32mauthentication[m[33m)[m First Commit Before customizing user authentication
+[33m1f3d76f[m[33m ([m[1;32mmain[m[33m)[m Initial commit

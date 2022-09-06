@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %} Buy your favorite books(403){% endblock %}
+
+{% block content %}
+</br>
+{% for book in books%}
+<div class="container-fluid">
+  <a href="{% url 'detail' book.pk %}">
+    <div class="card" data-clickable = "true" data-href="{% url 'detail' book.pk %}" style="width: 18rem;">
+        <img src="{{ book.cover_image.url }}" class="card-img-top" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"><h5>{{book.book_name}}</h5></h5>
+          <p class="card-text">{{book.author_name}} - {{book.published_year}}</p>
+          <h4 style = "color:red">Rs. {{book.price}}</h4>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+    </div>
+  </a>
+</div>
+<br/>
+{% empty %}
+<h6> book not available </h6>
+{% endfor %}
+
+
+{% comment %} {% if is_paginated %} {% endcomment %}
+{% if books.has_previous %}
+      <a class = "btn btn-outline-info mb-4" href = "?page=1">First</a>
+      <a class = "btn btn-outline-info mb-4" href = "?page={{books.previous_page_number}}">Previous</a>
+
+     {%endif%}
+    {% for num in books.paginator.page_range %}
+      {% if books.number == num %}
+        <a class = "btn btn-info mb-4" href = "?page={{num}}">{{num}}</a>
+      {% elif num > books.number|add:'-3' and num < books.number|add:'3' %}
+        <a class = "btn btn-outline-info mb-4" href = "?page={{num}}">{{num}}</a>
+
+      {% endif %}
+    {%endfor%}
+    {% if books.has_next %}
+      <a class = "btn btn-outline-info mb-4" href = "?page={{books.next_page_number}}">Next</a>
+      <a class = "btn btn-outline-info mb-4" href = "?page={{books.num_pages}}">Last</a>
+
+    {% endif %}
+{% comment %} {% endif %}  {% endcomment %}
+
+<p>{% if exception %}{{ exception }}{% else %}You're not allowed to access this page.{% endif %}</p>
+{% endblock content %}
