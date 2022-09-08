@@ -26,8 +26,17 @@
           {{book.description}}
         </p>
         <h6> Available Quantity: {{book.available_qty}}</h6>
-        <a href = "{% url 'cart' book.id %}" > <button type="button" class="btn btn-primary btn-lg">Add to Cart</button></a>
-          <a href = "{% url 'order' book.id %}" > <button type="button" class="btn btn-danger btn-lg">Buy Now</button> </a>
+        <div class = "btn-group">
+
+          <a href = "{% url 'cart' book.id %}" > <button type="button" class="btn btn-primary btn-lg">Add to Cart</button></a>
+          &nbsp;
+          <form action="" method="post">
+            {% csrf_token %}
+            <input type = "hidden"name = "id" value = {{book.id}}>
+            <div class="divider"/>
+            <button type="submit" class="btn btn-danger btn-lg" name="order" value="order_book">Order Now</button>
+          </div>
+      </form>
     </div>
 
   </div>

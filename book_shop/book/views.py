@@ -1,9 +1,11 @@
 from book.models import BookProduct, Cart,Order
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
+from django.views import View
 
 
 # Create your views here.
+# list the books in home page while sending get request
 def show_book_list(request):
 
     context = {}
@@ -24,16 +26,30 @@ def show_book_detail(request, pk):
         context = {
             "book": books,
         }
-    return render(request, "pages/book_detail.html", context)
+        return render(request, "pages/book_detail.html", context)
+    
+    if request.method == "POST":
+        try:
+            pk = request.POST['id']  
+        except:
+            HttpResponse("Didn't get the valid id")
+        current_user = request.user
+        book = BookProduct.objects.get(id=pk)
+        print(book)
+        order = Order.objects.create()
+        order.customer = current_user
+        order.books = book
+        order.save()
+        return render(request, "pages/order.html", {})
 
 
+# Adding books to the Cart
+# There is a single cart created for each user during User object creation
+# Add books to the cart of respective user who logged in the website
 def add_to_cart(request, pk):
     current_user = request.user
     book = BookProduct.objects.get(id=pk)
     print(book.book_name)
-    # user_cart = Cart(customer=current_user)
-    # user_cart.save()
-    # user_cart.books.add(book)
     user_cart = Cart.objects.filter(customer=current_user).first()
     user_cart.books.add(book)
     user_cart.save()
@@ -41,15 +57,37 @@ def add_to_cart(request, pk):
     return render(request, "pages/cart.html", {})
 
 
-def add_to_order(request,pk):
-    current_user = request.user
-    book = BookProduct.objects.get(id=pk)
-    print(book)
-    order = Order.objects.create()
-    order.customer = current_user
-    order.books = book
-    order.save()
+# Place order for a given book by sending book_id in
+# the POST request after clicking the order now
+def add_to_order(request):
+    if request.method == "POST":
+        try:
+            pk = request.POST['id']  
+        except:
+            HttpResponse("Didn't get the valid id")
+        current_user = request.user
+        book = BookProduct.objects.get(id=pk)
+        print(book)
+        order = Order.objects.create()
+        order.customer = current_user
+        order.books = book
+        order.save()
     return render(request, "pages/order.html", {})
+
+
+class CartView(View):
+    template_name = 'pages/cart.html'
+    context = {}
+    def get(self,request):
+        current_user = request.user
+        cart = Cart.objects.get(customer=current_user)
+        all_books = cart.books.all()
+        context={
+            'books':all_books
+        }
+        print(context)  
+        return render(request, self.template_name, self.context)
+    
 
     
 # def make_order(request,pk):
